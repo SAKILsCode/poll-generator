@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title><%= poll.title %></title>
+
+    <!-- Bootstrap CSS -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+      crossorigin="anonymous"
+    />
+  </head>
+  <body>
+    <div class="container">
+      <div class="col-md-6 offset-md-3 my-5">
+        <%- include('./nav/nav.ejs') %>
+        <div class="card card-body my-4">
+          <h4>Title: <%= poll.title %></h4>
+          <p>Description: <%= poll.description %></p>
+
+          <div class="my-3">
+            <h5 class="d-inline">Result:</h5>
+            <h6 class="badge bg-light text-dark">
+              Total Vote: <%= poll.totalVote %>
+            </h6>
+            <ul class="list-groupp mt-3">
+              <% for (let r of result) { %>
+              <li class="list-group-item my-2">
+                <h5>
+                  <strong class="mx-2"> <%= r.name %> </strong>
+
+                  <span class="badge bg-warning text-dark">
+                    <%= r.percentage.toFixed(2) %> %
+                  </span>
+                </h5>
+              </li>
+              <% } %>
+            </ul>
+          </div>
+
+          <div class="my-4">
+            <h5>Select Your Opinion</h5>
+            <form action="/polls/<%= poll._id %>" method="POST">
+              <% for (let option of poll.options) { %>
+              <div class="custom-control custom-radio">
+                <input
+                  type="radio"
+                  name="option"
+                  id="<%= option._id %> "
+                  class="custom-control-input"
+                  value="<%= option._id %> "
+                />
+                <label for="<%= option.name %> " class="custom-control-label"
+                  ><%= option.name %>
+                </label>
+              </div>
+              <% } %>
+              <input
+                type="submit"
+                value="Submit Opinion"
+                class="btn btn-primary mt-2"
+                id="submit-btn"
+              />
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+      crossorigin="anonymous"
+    ></script>
+  </body>
+</html>
